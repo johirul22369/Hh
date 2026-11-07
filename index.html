@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>NUR VIP AI HACK - Powered by JOY</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;0,900;1,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Rubik', sans-serif !important;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #05070f;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* গেম রেফারেল লিংক আইফ্রেম */
+#game-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  z-index: 1;
+  background: transparent;
+}
+
+/* ফ্লোটিং আইকন */
+#floatingIcon {
+  position: fixed;
+  top: 40px;
+  right: 15px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid #00f0ff;
+  background: #001219;
+  color: #00f0ff;
+  font-size: 20px;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.8);
+  z-index: 99999;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  overflow: hidden;
+}
+
+#floatingIcon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* পাসওয়ার্ড পপআপ (VIP ACCESS) */
+#auth-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  background: rgba(4, 14, 24, 0.98);
+  border: 2px solid #00f0ff;
+  border-radius: 14px;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+  padding: 14px;
+  display: none;
+  z-index: 100000;
+  text-align: center;
+}
+
+.auth-title {
+  font-size: 11px;
+  font-weight: 900;
+  color: #00f0ff;
+  margin-bottom: 8px;
+  text-shadow: 0 0 5px rgba(0, 240, 255, 0.8);
+  letter-spacing: 0.5px;
+}
+
+.password-box-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 6px 30px 6px 8px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid #00f0ff;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 10px;
+  text-align: left;
+  outline: none;
+  font-weight: 600;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 12px;
+  color: #00f0ff;
+}
+
+.remember-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 9px;
+  color: #cbd5e1;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 7px;
+  background: linear-gradient(135deg, #00f0ff, #0077ff);
+  border: none;
+  border-radius: 5px;
+  color: #000;
+  font-size: 10px;
+  font-weight: 900;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+}
+
+#error-msg {
+  color: #ff3366;
+  font-size: 8px;
+  margin-top: 4px;
+  display: none;
+  font-weight: 700;
+}
+
+/* 🌟 মূল পপআপ কন্টেইনার (ডাইরেক্ট PNG ইমেজ) 🌟 */
+#popup {
+  position: fixed;
+  width: 330px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99998;
+  display: none;
+  touch-action: none;
+  filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.85));
+}
+
+.popup-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.popup-main-img {
+  width: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+/* ক্লোজ বাটন */
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  background: #ff3355;
+  color: white;
+  border: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-size: 8px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 0 6px #ff3355;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* ডানপাশের গোল্ডেন ফ্রেম বক্সের ওপর প্রেডিকশন পজিশনিং */
+.prediction-overlay-box {
+  position: absolute;
+  top: 38%;
+  right: 6%;
+  width: 44%;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+}
+
+.target-period {
+  font-size: 6px;
+  font-weight: 900;
+  color: #00f0ff;
+  margin-bottom: 1px;
+  text-shadow: 0 0 4px rgba(0, 240, 255, 0.9);
+}
+
+@keyframes luxuryGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.target-big-small {
+  font-size: 23px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 1px;
+  line-height: 1;
+  background: linear-gradient(270deg, #ff007f, #00ffcc, #ffff00, #ff3333);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: luxuryGlow 3s ease infinite;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 204, 0.9));
+  margin-bottom: 2px;
+}
+
+.target-balls-row {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.ball-3d {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 900;
+  font-style: italic;
+  position: relative;
+  box-shadow: inset 0 -3px 5px rgba(0,0,0,0.6), 0 2px 5px rgba(0,0,0,0.7);
+}
+
+.ball-3d::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  width: 7px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: rotate(-25deg);
+}
+
+/* 🌟 পপআপের ঠিক নিচে ভিডিও এবং কন্ট্রোল এরিয়া 🌟 */
+.popup-bottom-video-box {
+  width: 100%;
+  margin-top: 6px;
+  border: 1.5px solid #00f0ff;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(2, 8, 15, 0.95);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+  padding: 5px;
+}
+
+#popup-video {
+  width: 100%;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+.bottom-bar-area {
+  width: 100%;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
+.status-live {
+  font-size: 6px;
+  font-weight: 900;
+  color: #22c55e;
+}
+
+.score-text {
+  font-size: 6px;
+  font-weight: 900;
+  color: #ffd700;
+}
+
+.timer-display {
+  font-size: 6px;
+  font-weight: 900;
+  color: #ffe34b;
+}
+
+.inline-bar-container {
+  flex: 1;
+  height: 3.5px;
+  background: #020c14;
+  border: 0.8px solid #00f0ff;
+  border-radius: 2px;
+  margin: 0 5px;
+  overflow: hidden;
+}
+
+.inline-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00f0ff, #22c55e);
+  box-shadow: 0 0 6px #00f0ff;
+  transition: width 0.3s linear;
+}
+
+.support-admin-btn {
+  width: 100%;
+  height: 20px;
+  margin-top: 4px;
+  border-radius: 10px;
+  border: 1px solid #00f0ff;
+  background: linear-gradient(90deg, #003b5c, #00f0ff, #003b5c);
+  color: white;
+  font-size: 7.5px;
+  font-weight: 900;
+  font-style: italic;
+  text-shadow: 0 0 4px #000;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.support-admin-btn span.sub-watermark {
+  font-size: 5px;
+  color: #001219;
+  font-weight: 900;
+  text-shadow: none;
+  margin-top: 1px;
+}
+</style>
+</head>
+
+<body>
+
+  <!-- গেম রেফারেল লিংক আইফ্রেম -->
+  <iframe id="game-iframe" src="https://www.hgnice.world/#/register?invitationCode=72537228603" loading="lazy"></iframe>
+
+  <!-- ফ্লোটিং আইকন -->
+  <div id="floatingIcon" onclick="handleIconClick()">
+    <img src="https://cdn.imageurlgenerator.com/uploads/90655630-71f4-464d-abc4-f9de7cd5e43a.jpg" alt="Joy Icon" onerror="this.style.display='none'; this.parentNode.innerText='👑';">
+  </div>
+
+  <!-- পাসওয়ার্ড পপআপ (VIP ACCESS) -->
+  <div id="auth-overlay">
+    <div class="auth-title">🔐 NUR VIP ACCESS 🔐</div>
+    <div class="password-box-wrapper">
+      <input type="password" id="pass-input" class="auth-input" placeholder="Enter Password">
+      <span class="toggle-password" onclick="togglePasswordVisibility()">👁️</span>
+    </div>
+    <label class="remember-row">
+      <input type="checkbox" id="remember-pass"> Remember Password
+    </label>
+    <button class="auth-btn" onclick="checkPassword()">Submit</button>
+    <div id="error-msg">Wrong Password!</div>
+  </div>
+
+  <!-- হ্যাক পপআপ বক্স (PNG ইমেজ এবং ঠিক নিচে ভিডিও) -->
+  <div id="popup">
+    <div class="popup-wrapper">
+      <button class="close-btn" onclick="hidePopup()">✕</button>
+      
+      <!-- মেইন PNG পপআপ ইমেজ -->
+      <img src="https://imagepaste.org/i/sugsyhgy.png" alt="NUR VIP HACK" class="popup-main-img">
+
+      <!-- ডানপাশের গোল্ডেন ফ্রেম বক্সের ভেতরে বসানো প্রেডিকশন -->
+      <div class="prediction-overlay-box">
+        <div class="target-period" id="period-num">P Loading...</div>
+        <div class="target-big-small" id="res-size">WAITING</div>
+        <div class="target-balls-row">
+          <div class="ball-3d" id="num-1">–</div>
+          <div class="ball-3d" id="num-2">–</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🌟 পিএনজির ঠিক নিচের ভিডিও এবং কন্ট্রোল বক্স 🌟 -->
+    <div class="popup-bottom-video-box">
+      <video id="popup-video" autoplay muted loop playsinline>
+        <source src="https://cdn.imageurlgenerator.com/uploads/59c06f5b-cd64-4347-b909-ba84a59b62f3.mp4" type="video/mp4">
+      </video>
+
+      <div class="bottom-bar-area">
+        <span class="status-live">● LIVE</span>
+        <span class="score-text" id="score-text">SCORE 98%</span>
+        <div class="inline-bar-container">
+          <div class="inline-bar-fill" id="inline-progress"></div>
+        </div>
+        <span class="timer-display" id="timer-text">00:30</span>
+      </div>
+
+      <a class="support-admin-btn" href="https://t.me/OWNER_OF_12xTM" target="_blank">
+        ✈ SUPPORT ADMIN (@OWNER_OF_12xTM)
+        <span class="sub-watermark">By Joy</span>
+      </a>
+    </div>
+  </div>
+
+<script>
+let isUnlocked = localStorage.getItem("nur_hack_unlocked") === "true";
+const totalDuration = 30;
+
+function handleIconClick() {
+  if (isUnlocked) {
+    document.getElementById("popup").style.display = "block";
+    document.getElementById("floatingIcon").style.display = "none";
+    startPeriodGenerator();
+  } else {
+    document.getElementById("auth-overlay").style.display = "block";
+  }
+}
+
+function togglePasswordVisibility() {
+  const passInput = document.getElementById('pass-input');
+  if (passInput.type === "password") {
+    passInput.type = "text";
+  } else {
+    passInput.type = "password";
+  }
+}
+
+function checkPassword() {
+  const pass = document.getElementById('pass-input').value;
+  const rememberMe = document.getElementById('remember-pass').checked;
+
+  if (pass === "A-N-HGZY-70") {
+    isUnlocked = true;
+    if (rememberMe) {
+      localStorage.setItem("nur_hack_unlocked", "true");
+    }
+    document.getElementById('auth-overlay').style.display = 'none';
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('floatingIcon').style.display = 'none';
+    startPeriodGenerator();
+  } else {
+    document.getElementById('error-msg').style.display = 'block';
+    document.getElementById('pass-input').value = "";
+  }
+}
+
+function hidePopup() {
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("floatingIcon").style.display = "flex";
+}
+
+let timerInterval = null;
+
+function apply3DColor(el, num) {
+  el.innerText = num;
+  el.style.color = "#ffffff";
+  
+  if (num === 0 || num === 5) {
+    el.style.background = "radial-gradient(circle at 35% 35%, #d88eff 0%, #9020e0 60%, #500090 100%)";
+  } else if (num === 1 || num === 3 || num === 7 || num === 9) {
+    el.style.background = "radial-gradient(circle at 35% 35%, #55ff99 0%, #10a040 60%, #055020 100%)";
+  } else {
+    el.style.background = "radial-gradient(circle at 35% 35%, #ff6677 0%, #e01020 60%, #800010 100%)";
+  }
+}
+
+function startPeriodGenerator() {
+  if (timerInterval) clearInterval(timerInterval);
+
+  function update() {
+    if (!isUnlocked) return;
+
+    const now = new Date();
+    const totalSecs = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
+    let periodIndex = Math.floor(totalSecs / totalDuration) + 1;
+    let dateStr = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}`;
+    
+    let fullPeriodNumber = `P ${dateStr}30${String(10000 + periodIndex).slice(-4)}`;
+    let timeLeft = totalDuration - (totalSecs % totalDuration);
+
+    document.getElementById('period-num').innerText = fullPeriodNumber;
+    document.getElementById('timer-text').innerText = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+
+    let sizeEl = document.getElementById('res-size');
+    let inlineProgress = document.getElementById('inline-progress');
+    let scoreLabel = document.getElementById('score-text');
+    let num1El = document.getElementById('num-1');
+    let num2El = document.getElementById('num-2');
+
+    if (timeLeft >= 28) {
+      let elapsedSteps = 30 - timeLeft + 1;
+      let loadingProgress = (elapsedSteps / 3) * 100;
+      inlineProgress.style.width = loadingProgress + "%";
+      scoreLabel.innerText = `SCORE ${elapsedSteps * 33}%`;
+
+      sizeEl.innerText = "WAITING";
+      num1El.innerText = "–";
+      num2El.innerText = "–";
+      num1El.style.background = "#333";
+      num2El.style.background = "#333";
+    } else {
+      inlineProgress.style.width = "100%";
+
+      let seed = parseInt(fullPeriodNumber.replace('P ', ''));
+      let dynamicAcc = 94 + ((seed * 13) % 6); 
+      scoreLabel.innerText = `SCORE ${dynamicAcc}%`;
+
+      let x = Math.sin(seed * 73.156) * 10000;
+      let randomFactor = Math.abs(x - Math.floor(x));
+      let isBig = (seed % 2 === 0);
+      if (randomFactor > 0.45) isBig = !isBig;
+
+      sizeEl.innerText = isBig ? "BIG" : "SMALL";
+
+      let n1, n2;
+      if (isBig) {
+        n1 = 5 + (seed % 3);
+        n2 = 6 + ((seed + 1) % 4);
+        if (n2 > 9) n2 = 8;
+      } else {
+        n1 = seed % 3;
+        n2 = 1 + ((seed + 2) % 4);
+      }
+
+      apply3DColor(num1El, n1);
+      apply3DColor(num2El, n2);
+    }
+  }
+
+  update();
+  timerInterval = setInterval(update, 1000);
+}
+
+makeDraggable(document.getElementById("floatingIcon"));
+makeDraggable(document.getElementById("popup"));
+
+function makeDraggable(elmnt) {
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  elmnt.onmousedown = dragMouseDown;
+  elmnt.ontouchstart = dragMouseDown;
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    let clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+    let clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+    pos3 = clientX;
+    pos4 = clientY;
+    document.onmouseup = closeDragElement;
+    document.ontouchend = closeDragElement;
+    document.onmousemove = elementDrag;
+    document.ontouchmove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    let clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+    let clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+    pos1 = pos3 - clientX;
+    pos2 = pos4 - clientY;
+    pos3 = clientX;
+    pos4 = clientY;
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    elmnt.style.transform = "none";
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.ontouchend = null;
+    document.onmousemove = null;
+    document.ontouchmove = null;
+  }
+}
+</script>
+
+</body>
+</html>
